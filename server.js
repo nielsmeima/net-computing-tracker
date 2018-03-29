@@ -1,13 +1,13 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const net     = require('net');
+const express     = require('express');
+const bodyParser  = require('body-parser');
+const net         = require('net');
 
 // ===== Socket =====
 let client;
 
 try 
 {
-  client = net.createConnection({ port: 8124, host: '192.168.1.19' }, () => {
+  client = net.createConnection({ port: 8124, host: '192.168.178.16' }, () => {
     //'connect' listener
     console.log('connected to server!');
   });

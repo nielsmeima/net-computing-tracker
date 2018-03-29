@@ -1,6 +1,9 @@
 const express     = require('express');
+var path          = require('path')
+var fs            = require('fs')
 const bodyParser  = require('body-parser');
 const net         = require('net');
+var https         = require('https')
 
 // ===== Socket =====
 let client;
@@ -57,5 +60,21 @@ app.get('/*', function(req, res) {
   res.sendFile(distDir + 'index.html');
 });
 
-const port = process.env.PORT || 1111;
-app.listen(port);
+
+// Create webserver
+const port = process.env.PORT || 443;
+
+
+var certOptions = {
+  key: fs.readFileSync(path.resolve('./build/cert/server.key')),
+  cert: fs.readFileSync(path.resolve('./build/cert/server.crt'))
+}
+
+// var server = https.createServer(certOptions, app).listen(1111)
+var server = https.createServer(certOptions, app).listen(port, function(){
+  console.log("Express server listening on port " + port);
+});
+
+
+
+// app.listen(port);

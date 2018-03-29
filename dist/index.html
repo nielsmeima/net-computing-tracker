@@ -34,10 +34,13 @@ function success(pos) {
   console.log(`Latitude : ${crd.latitude}`);
   console.log(`Longitude: ${crd.longitude}`);
   console.log(`More or less ${crd.accuracy} meters.`);
+  console.log('Showing position');
+  x.innerHTML = "Latitude: " + crd.latitude + "<br>Longitude: " + crd.longitude;
 }
 
 function error(err) {
   console.warn(`ERROR(${err.code}): ${err.message}`);
+  x.innerHTML = "ERROR GETTING POS"
 }
 
 // function showPosition(position) {

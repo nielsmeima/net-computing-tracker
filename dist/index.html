@@ -39,11 +39,41 @@ function success(pos) {
   console.log(`More or less ${crd.accuracy} meters.`);
   console.log('Showing position');
   x.innerHTML = "Latitude: " + crd.latitude + "<br>Longitude: " + crd.longitude;
+  post(crd);
 }
 
 function error(err) {
   console.warn(`ERROR(${err.code}): ${err.message}`);
   x.innerHTML = `Error getting position: ${err.code}: ${err.message}`;
+}
+
+function post(coords)
+{
+    // var data = new FormData();
+    // data.append('longitude', coords.longitude);
+    // data.append('latitude', coords.latitude);
+    // data.append('id', 'UUID TEST');
+
+    // var xhr = new XMLHttpRequest();
+    // xhr.open('POST', '/location', true);
+
+    // xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    // xhr.onload = function () {
+    //     // do something to response
+    //     console.log(this.responseText);
+    // };
+    // xhr.send(data);
+
+    let data = {
+        longitude: coords.longitude,
+        latitude: coords.latitude,
+        id: 'UUID'
+    }
+
+    var xml = new XMLHttpRequest();   // new HttpRequest instance 
+    xml.open("POST", "/location");
+    xml.setRequestHeader("Content-Type", "application/json");
+    xml.send(JSON.stringify(data));
 }
 
 </script>

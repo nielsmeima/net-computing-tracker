@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Click the button to get your coordinates.</p>
+
+<button onclick="getLocation()">Try It</button>
+
+<p id="demo"></p>
+
+<script>
+var x = document.getElementById("demo");
+
+// var options = {
+//   enableHighAccuracy: true,
+//   timeout: 5000,
+//   maximumAge: 0
+// };
+
+function getLocation() {
+    if (navigator.geolocation) {
+        console.log('Got position');
+        navigator.geolocation.watchPosition(success, error, options);
+    } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+        console.log('Could not get position');
+    }
+}
+
+function success(pos) {
+  var crd = pos.coords;
+
+  console.log('Your current position is:');
+  console.log(`Latitude : ${crd.latitude}`);
+  console.log(`Longitude: ${crd.longitude}`);
+  console.log(`More or less ${crd.accuracy} meters.`);
+}
+
+function error(err) {
+  console.warn(`ERROR(${err.code}): ${err.message}`);
+}
+
+// function showPosition(position) {
+//     console.log('Showing position');
+//     x.innerHTML = "Latitude: " + position.coords.latitude + 
+//     "<br>Longitude: " + position.coords.longitude;
+// }
+
+// function showPositionError(err) {
+//     console.log('showPositionError')
+//     console.log(err)
+// }
+</script>
+
+</body>
+</html>

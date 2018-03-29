@@ -2,9 +2,13 @@
 <html>
 <body>
 
-<p>Click the button to get your coordinates.</p>
+<p>Click the button to start tracking your location in real-time</p>
 
-<button onclick="getLocation()">Try It</button>
+<button onclick="getLocation()">Track location</button>
+
+<br>
+
+<p>Location status: </p>
 
 <p id="demo"></p>
 
@@ -39,19 +43,9 @@ function success(pos) {
 
 function error(err) {
   console.warn(`ERROR(${err.code}): ${err.message}`);
-  x.innerHTML = "ERROR GETTING POS"
+  x.innerHTML = `Error getting position: ${err.code}: ${err.message}`;
 }
 
-// function showPosition(position) {
-//     console.log('Showing position');
-//     x.innerHTML = "Latitude: " + position.coords.latitude + 
-//     "<br>Longitude: " + position.coords.longitude;
-// }
-
-// function showPositionError(err) {
-//     console.log('showPositionError')
-//     console.log(err)
-// }
 </script>
 
 </body>

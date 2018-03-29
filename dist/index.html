@@ -2,6 +2,8 @@
 <html>
 <body>
 
+<p>This sensor has UUID: 1</p>
+
 <p>Click the button to start tracking your location in real-time</p>
 
 <button onclick="getLocation()">Track location</button>
@@ -10,10 +12,10 @@
 
 <p>Location status: </p>
 
-<p id="demo"></p>
+<p id="location"></p>
 
 <script>
-var x = document.getElementById("demo");
+var x = document.getElementById("location");
 
 var options = {
   enableHighAccuracy: true,
@@ -49,25 +51,11 @@ function error(err) {
 
 function post(coords)
 {
-    // var data = new FormData();
-    // data.append('longitude', coords.longitude);
-    // data.append('latitude', coords.latitude);
-    // data.append('id', 'UUID TEST');
-
-    // var xhr = new XMLHttpRequest();
-    // xhr.open('POST', '/location', true);
-
-    // xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    // xhr.onload = function () {
-    //     // do something to response
-    //     console.log(this.responseText);
-    // };
-    // xhr.send(data);
 
     let data = {
         longitude: coords.longitude,
         latitude: coords.latitude,
-        id: 'UUID'
+        id: '1'
     }
 
     var xml = new XMLHttpRequest();   // new HttpRequest instance 

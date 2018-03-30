@@ -5,12 +5,19 @@ const bodyParser  = require('body-parser');
 const net         = require('net');
 var https         = require('https')
 
+// ===== Notifications =====
+
+const notifications = require('./notifications');
+
+notifications.consumeNewBroadcastGroup('24398957-5e73-4eaf-9c52-d171ac971dd5');
+
+
 // ===== Socket =====
 let client;
 
 try 
 {
-  client = net.createConnection({ port: 8124, host: '192.168.178.16' }, () => {
+  client = net.createConnection({ port: 8124, host: '192.168.1.19' }, () => {
     //'connect' listener
     console.log('connected to server!');
   });
@@ -62,19 +69,18 @@ app.get('/*', function(req, res) {
 
 
 // Create webserver
-const port = process.env.PORT || 443;
+const port = process.env.PORT || 1111;
 
 
-var certOptions = {
-  key: fs.readFileSync(path.resolve('./build/cert/server.key')),
-  cert: fs.readFileSync(path.resolve('./build/cert/server.crt'))
-}
+// var certOptions = {
+//   key: fs.readFileSync(path.resolve('./build/cert/server.key')),
+//   cert: fs.readFileSync(path.resolve('./build/cert/server.crt'))
+// }
 
-// var server = https.createServer(certOptions, app).listen(1111)
-var server = https.createServer(certOptions, app).listen(port, function(){
-  console.log("Express server listening on port " + port);
-});
-
+// var server = https.createServer(certOptions, app).listen(port, function(){
+//   console.log("Express server listening on port " + port);
+// });
 
 
-// app.listen(port);
+
+app.listen(port);

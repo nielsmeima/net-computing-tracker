@@ -9,6 +9,8 @@ var https         = require('https')
 
 const notifications = require('./notifications');
 
+// Setup initial broadcast group by asking REST server for broadcastgroup of this user
+notifications.setupInitialBroadcastGroup('24398957-5e73-4eaf-9c52-d171ac971dd5');
 notifications.consumeNewBroadcastGroup('24398957-5e73-4eaf-9c52-d171ac971dd5');
 
 

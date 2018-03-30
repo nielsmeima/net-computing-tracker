@@ -1,8 +1,9 @@
-var amqp  = require('amqplib/callback_api');
+var amqp      = require('amqplib/callback_api');
+const request = require('request-promise-native');
 
-
-var exchangeChannel
-
+/**
+ * Creates a connection
+ */
 const createConnection = () => {
   return new Promise((resolve, reject) => {
 
@@ -16,6 +17,9 @@ const createConnection = () => {
   })
 }
 
+/**
+ * Creates a channel
+ */
 const createChannel = () => {
   return new Promise(async (resolve, reject) => {
     try
@@ -41,6 +45,7 @@ const createChannel = () => {
 const consumePOINotification = async (broadcastGroup) => {
   try 
   {
+
     let channel = await createChannel();
 
     let exchange = 'poi-notification';
@@ -54,11 +59,13 @@ const consumePOINotification = async (broadcastGroup) => {
 
       channel.bindQueue(queue.queue, exchange, broadcastGroup);
 
+      console.log(`[User Notification] Setup notifications for broadcastGroupid: ${broadcastGroup}`);
+
       channel.consume(queue.queue, (msg) => {
         const buffer = Buffer.from(msg.content);
         const POI = JSON.parse(buffer.toString());
 
-        console.log(`[Sensor Notification] ${POI.description} at LAT ${POI.latitude}, LONG ${POI.longitude}`)
+        console.log(`[User Notification] ${POI.description} at LAT ${POI.latitude}, LONG ${POI.longitude}`)
       })
 
     })
@@ -105,6 +112,42 @@ const consumeNewBroadcastGroup = async (queue) => {
   }
 }
 
+/**
+ * When users first connects, this function ensures is listen to the right notifications channel (last known broadcast group)
+ * @param {string} userId 
+ */
+const setupInitialBroadcastGroup = async (userId) => {
+  try 
+  {
+    const restIp    = '127.0.0.1';
+    const restPort  = '3000';
+
+    let url = 'http://' + restIp + ':' + restPort + '/api/user/' + userId;
+
+    let options = {
+      method: 'get',
+      url
+    }
+
+    let user = await request(options);
+    user = JSON.parse(user);
+    
+    // Only if there is a lastknown broadcast group (i.e. != null)
+    if (user.BroadcastGroup)
+    {
+      console.log(`[User Notifications] Setup user broadcast group to last known broadcast group: ${user.BroadcastGroup.city}`)
+      consumePOINotification(user.BroadcastGroup.city)
+    }
+
+  }
+  catch (err)
+  {
+    console.log('SetupInitialBroadcastGroup error');
+    console.log(err);
+  }
+}
+
 module.exports = {
-  consumeNewBroadcastGroup
+  consumeNewBroadcastGroup,
+  setupInitialBroadcastGroup
 }

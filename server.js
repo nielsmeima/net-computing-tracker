@@ -6,12 +6,13 @@ const net         = require('net');
 var https         = require('https')
 
 // ===== Notifications =====
+let userId = '24398957-5e73-4eaf-9c52-d171ac971dd5'
 
 const notifications = require('./notifications');
 
 // Setup initial broadcast group by asking REST server for broadcastgroup of this user
-notifications.setupInitialBroadcastGroup('24398957-5e73-4eaf-9c52-d171ac971dd5');
-notifications.consumeNewBroadcastGroup('24398957-5e73-4eaf-9c52-d171ac971dd5');
+notifications.setupInitialBroadcastGroup(userId);
+notifications.consumeNewBroadcastGroup(userId);
 
 
 // ===== Socket =====
@@ -19,19 +20,19 @@ let client;
 
 try 
 {
-  client = net.createConnection({ port: 8124, host: '192.168.1.19' }, () => {
+  client = net.createConnection({ port: 8124, host: '0.0.0.0' }, () => {
     //'connect' listener
-    console.log('connected to server!');
+    console.log('connected to socket!');
   });
 
   // Receiving data from server
   client.on('data', (data) => {
-    console.log('received confirmation');
+    console.log('received acknowledgement for sent message');
   });
 
   // Ended connection
   client.on('end', () => {
-    console.log('disconnected from server');
+    console.log('disconnected from socket');
   });
 }
 catch (err)
@@ -43,7 +44,7 @@ catch (err)
 const sendLocation = (update) => {
 
   const buffer = Buffer.from(JSON.stringify(update));
-  console.log('Sjors sent his location');
+  console.log('Tracker sent his location');
   client.write(buffer);
 }
 
@@ -65,7 +66,7 @@ app.post('/location', (req, res) => {
 })
 
 app.get('/*', function(req, res) {
-  console.log('Serving the HTML')
+  console.log('Serving the Geolocation Tracker HTML')
   res.sendFile(distDir + 'index.html');
 });
 

@@ -119,7 +119,7 @@ const consumeNewBroadcastGroup = async (queue) => {
 const setupInitialBroadcastGroup = async (userId) => {
   try 
   {
-    const restIp    = '127.0.0.1';
+    const restIp    = '0.0.0.0';
     const restPort  = '3000';
 
     let url = 'http://' + restIp + ':' + restPort + '/api/user/' + userId;

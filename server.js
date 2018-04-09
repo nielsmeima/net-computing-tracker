@@ -6,7 +6,7 @@ const net         = require('net');
 var https         = require('https')
 
 // ===== Notifications =====
-let userId = '24398957-5e73-4eaf-9c52-d171ac971dd5'
+let userId = '333c78a6-6c67-4820-a2b7-3dfaa206ade4'
 
 const notifications = require('./notifications');
 
